@@ -1,0 +1,11 @@
+BEGIN_PATH_REG
+dac_cs_0_ins
+dac_cs_1_ins
+dac_cs_2_ins
+END_PATH_REG
+
+BEGIN_CONNECTOR
+SCAN_IN scan_in
+SCAN_OUT scan_out
+SCAN_TEST test
+END_CONNECTOR

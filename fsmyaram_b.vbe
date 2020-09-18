@@ -1,0 +1,71 @@
+-- VHDL data flow description generated from `fsmyaram_b`
+--		date : Fri Apr 26 19:29:41 2019
+
+
+-- Entity Declaration
+
+ENTITY fsmyaram_b IS
+  PORT (
+  clk : in BIT;	-- clk
+  vdd : in BIT;	-- vdd
+  vss : in BIT;	-- vss
+  code : in bit_vector(3 DOWNTO 0) ;	-- code
+  daytime : in BIT;	-- daytime
+  reset : in BIT;	-- reset
+  door : out BIT;	-- door
+  alarm : out BIT	-- alarm
+  );
+END fsmyaram_b;
+
+
+-- Architecture Declaration
+
+ARCHITECTURE behaviour_data_flow OF fsmyaram_b IS
+  SIGNAL dac_cs : REG_VECTOR(2 DOWNTO 0) REGISTER;	-- dac_cs
+  SIGNAL aux2 : BIT;		-- aux2
+  SIGNAL aux3 : BIT;		-- aux3
+  SIGNAL aux6 : BIT;		-- aux6
+  SIGNAL aux7 : BIT;		-- aux7
+  SIGNAL aux8 : BIT;		-- aux8
+  SIGNAL aux10 : BIT;		-- aux10
+  SIGNAL aux11 : BIT;		-- aux11
+  SIGNAL aux12 : BIT;		-- aux12
+  SIGNAL aux15 : BIT;		-- aux15
+
+BEGIN
+  aux15 <= (NOT(code(0)) AND (NOT(dac_cs(2)) AND (NOT(
+code(2)) AND aux11)));
+  aux12 <= (NOT(reset) AND NOT(code(1)));
+  aux11 <= (NOT(reset) AND code(1));
+  aux10 <= NOT((NOT(aux8) OR code(0)) OR NOT(dac_cs(2)));
+  aux8 <= NOT(code(3) OR NOT(dac_cs(0)));
+  aux7 <= NOT(dac_cs(1) XOR code(3));
+  aux6 <= NOT(((NOT(code(3)) OR NOT(code(0))) OR NOT(
+code(2))) OR NOT(daytime));
+  aux3 <= NOT(dac_cs(1) OR code(3));
+  aux2 <= NOT(((code(3) OR dac_cs(0)) OR code(0)) OR NOT(
+dac_cs(2)));
+  label0 : BLOCK ((clk AND NOT((clk'STABLE))) = '1')
+  BEGIN
+    dac_cs (0) <= GUARDED ((aux3 AND NOT(dac_cs(0)) AND aux15) OR (aux2 AND
+ NOT(code(2)) AND aux12));
+  END BLOCK label0;
+  label1 : BLOCK ((clk AND NOT((clk'STABLE))) = '1')
+  BEGIN
+    dac_cs (1) <= GUARDED (aux10 AND code(2) AND aux11);
+  END BLOCK label1;
+  label2 : BLOCK ((clk AND NOT((clk'STABLE))) = '1')
+  BEGIN
+    dac_cs (2) <= GUARDED ((dac_cs(1) OR NOT(dac_cs(0))) AND aux7 AND aux15
+);
+  END BLOCK label2;
+
+alarm <= ((((NOT(aux10) AND code(2)) OR ((NOT(aux7) OR 
+dac_cs(0) OR code(0) OR dac_cs(2)) AND NOT(code(2)))) AND 
+aux11) OR (NOT(aux6) AND (((NOT(aux3) OR NOT(dac_cs(0)
+) OR NOT(code(0)) OR dac_cs(2)) AND code(2)) OR (
+NOT(aux2) AND NOT(code(2)))) AND aux12));
+
+door <= ((aux6 OR (aux8 AND code(0) AND NOT(dac_cs(2)) 
+AND code(2))) AND aux12);
+END;

@@ -1,0 +1,7 @@
+# Encoding figure "dac"
+-dac o 5
+s0	0	1
+sa	1	2
+s6	2	4
+s2	3	8
+start	4	10
